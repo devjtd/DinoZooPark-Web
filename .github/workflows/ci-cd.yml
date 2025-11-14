@@ -64,13 +64,28 @@ jobs:
  
       - name: Setup Pages
         uses: actions/configure-pages@v5
- 
-      # --- AJUSTE CLAVE: Subir la carpeta principal que contiene 'templates' y 'static' ---
-      - name: Upload artifact (HTML, CSS, JS e imágenes)
+      
+      # --- NUEVO PASO CLAVE: Preparar la estructura plana para el despliegue ---
+      # Esto crea la estructura esperada por GitHub Pages: index.html en la raíz
+      - name: Preparar carpeta de despliegue (_site)
+        run: |
+          # Crea la carpeta de destino que será la raíz de GitHub Pages
+          mkdir _site
+          
+          # 1. Copia todos los archivos HTML (incluyendo index.html) a la raíz de _site/
+          # Esto asegura que index.html esté en el root del servidor (soluciona el 404).
+          cp src/main/resources/templates/*.html _site/
+          
+          # 2. Copia la carpeta 'static' completa (CSS, JS, Img) a la raíz de _site/
+          # Esto mantiene la ruta /static/ para todos tus recursos.
+          cp -r src/main/resources/static _site/
+
+      # --- AJUSTE CLAVE: Desplegar la carpeta _site/ ---
+      - name: Upload artifact (Raíz plana)
         uses: actions/upload-pages-artifact@v3
         with:
-          # Esto subirá tanto 'templates' como 'static' a la raíz del despliegue.
-          path: 'src/main/resources'
+          # Sube el contenido de la carpeta '_site' como la raíz del sitio web
+          path: '_site'
  
       - name: Deploy to GitHub Pages
         id: deployment
