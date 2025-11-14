@@ -33,7 +33,7 @@ jobs:
       - name: Instalar HTMLHint
         run: npm install -g htmlhint
 
-      # Validación de HTML solo en la carpeta de plantillas
+      # --- AJUSTE CLAVE 1: Validar HTML en la carpeta de plantillas ---
       - name: Validar HTML
         run: |
           echo " Ejecutando HTMLHint..."
@@ -41,12 +41,12 @@ jobs:
           htmlhint src/main/resources/templates/**/*.html --rules "tag-pair,attr-value-double-quotes,id-unique,doctype-first"
           echo " HTML válido"
  
-      # Lighthouse CI apuntando a la carpeta de plantillas
+      # --- AJUSTE CLAVE 2: Ejecutar Lighthouse CI con la nueva ruta estática ---
       - name: Instalar y ejecutar Lighthouse CI (accesibilidad + mejoras)
         run: |
           npm install -g @lhci/cli@0.15.x
           echo "Auditar con Lighthouse CI (modo 'perf', 'accessibility', 'best-practices')..."
-          # staticDistDir apunta a la carpeta base de plantillas para su auditoría
+          # staticDistDir apunta a la carpeta base que contiene los archivos
           lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=src/main/resources/templates --collect.url=/index.html --assert.assertions.accessibility=warn --assert.assertions.performance=warn --assert.assertions['best-practices']=warn
  
   cd:
@@ -64,28 +64,13 @@ jobs:
  
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      
-      # --- NUEVO PASO CLAVE: Preparar la estructura plana para el despliegue ---
-      # Esto crea la estructura esperada por GitHub Pages: index.html en la raíz
-      - name: Preparar carpeta de despliegue (_site)
-        run: |
-          # Crea la carpeta de destino que será la raíz de GitHub Pages
-          mkdir _site
-          
-          # 1. Copia todos los archivos HTML (incluyendo index.html) a la raíz de _site/
-          # Esto asegura que index.html esté en el root del servidor (soluciona el 404).
-          cp src/main/resources/templates/*.html _site/
-          
-          # 2. Copia la carpeta 'static' completa (CSS, JS, Img) a la raíz de _site/
-          # Esto mantiene la ruta /static/ para todos tus recursos.
-          cp -r src/main/resources/static _site/
-
-      # --- AJUSTE CLAVE: Desplegar la carpeta _site/ ---
-      - name: Upload artifact (Raíz plana)
+ 
+      # --- AJUSTE CLAVE 3: Desplegar la carpeta de plantillas ---
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Sube el contenido de la carpeta '_site' como la raíz del sitio web
-          path: '_site'
+          # Sube los archivos HTML que estaban en la carpeta de plantillas
+          path: 'src/main/resources/templates'
  
       - name: Deploy to GitHub Pages
         id: deployment
