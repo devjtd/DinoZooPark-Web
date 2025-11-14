@@ -1,13 +1,13 @@
-# .github/workflows/ci-cd.yml
+# .github/workflows/ci-cd.yml 
+ 
+name: CI/CD Pipeline 
+ 
+on: 
+  push: 
+    branches: [ main ] 
+  pull_request: 
+    branches: [ main ] 
 
-name: CI/CD Pipeline
- 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
- 
 permissions:
   contents: read
   pages: write # Necesario para desplegar en GitHub Pages
@@ -33,21 +33,18 @@ jobs:
       - name: Instalar HTMLHint
         run: npm install -g htmlhint
 
-      # --- AJUSTE CLAVE 1: Validar HTML en la carpeta de plantillas ---
+      # Solución 1: Corregida la indentación de este paso.
       - name: Validar HTML
         run: |
           echo " Ejecutando HTMLHint..."
-          # Apuntamos a todos los archivos .html dentro de src/main/resources/templates
-          htmlhint src/main/resources/templates/**/*.html --rules "tag-pair,attr-value-double-quotes,id-unique,doctype-first"
+          htmlhint index.html --rules "tag-pair,attr-value-double-quotes,id-unique,doctype-first"
           echo " HTML válido"
  
-      # --- AJUSTE CLAVE 2: Ejecutar Lighthouse CI con la nueva ruta estática ---
       - name: Instalar y ejecutar Lighthouse CI (accesibilidad + mejoras)
         run: |
           npm install -g @lhci/cli@0.15.x
           echo "Auditar con Lighthouse CI (modo 'perf', 'accessibility', 'best-practices')..."
-          # staticDistDir apunta a la carpeta base que contiene los archivos
-          lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=src/main/resources/templates --collect.url=/index.html --assert.assertions.accessibility=warn --assert.assertions.performance=warn --assert.assertions['best-practices']=warn
+          lhci autorun --upload.target=temporary-public-storage --collect.staticDistDir=. --collect.url=index.html --assert.assertions.accessibility=warn --assert.assertions.performance=warn --assert.assertions['best-practices']=warn
  
   cd:
     name: Despliegue a GitHub Pages
@@ -65,12 +62,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
  
-      # --- AJUSTE CLAVE 3: Desplegar la carpeta de plantillas ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Sube los archivos HTML que estaban en la carpeta de plantillas
-          path: 'src/main/resources/templates'
+          path: '.' # Carpeta raíz (index.html, etc.)
  
       - name: Deploy to GitHub Pages
         id: deployment
