@@ -1,157 +1,189 @@
-/* Estilos Exclusivos de la Página "Nosotros" */
+/* ================================================= */
+/* FONDOS Y EFECTOS GENERALES */
+/* ================================================= */
 
-:root {
-    --color-jungle: #1e3a2a;
-    --color-alert: #e74c3c;
-    --color-tech-neon: #3498db;
+body {
+    background-color: #0d1a13; /* Fondo oscuro de jungla */
+    color: #f0f0f0; /* Texto claro */
+    overflow-x: hidden; /* Previene scroll horizontal por animaciones */
 }
 
-/* 1. EFECTOS DE FONDO Y DINOSAURIOS */
 .jungle-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, var(--color-jungle), #000);
-    z-index: -2;
-}
-
-.dino-track {
-    position: fixed;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+    background: url('../img/jungla.jpg') no-repeat center center; 
+    background-size: cover;
+    opacity: 0.2; 
     z-index: -1;
 }
 
-.dinosaur {
-    position: absolute;
-    bottom: -150px;
-    height: 150px;
-    z-index: 10;
-    animation: walk-cross 30s linear infinite;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+.dino-heading {
+    color: #4CAF50; /* Verde brillante de la tecnología */
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-#trex {
-    left: -200px;
-    height: 250px; /* Más grande para el T-Rex */
-    animation: walk-cross 30s linear infinite;
-}
-#raptor {
-    left: -150px;
-    animation: walk-cross 20s linear infinite 5s; /* Más rápido y con delay */
-}
-#ptero {
-    top: 10%;
-    left: -100px;
-    height: 80px;
-    animation: fly-cross 25s linear infinite;
-}
+/* ================================================= */
+/* 1. TRANSICIÓN DE GIF DE APERTURA */
+/* ================================================= */
 
-@keyframes walk-cross {
-    0% { transform: translateX(0) scaleX(1); }
-    50% { transform: translateX(calc(100vw + 300px)) scaleX(1); } /* Cruza la pantalla */
-    51% { transform: translateX(calc(100vw + 300px)) scaleX(-1); } /* Gira */
-    100% { transform: translateX(0) scaleX(-1); } /* Regresa */
-}
-@keyframes fly-cross {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(100vw + 100px)); }
-}
-
-/* 2. EFECTO DE VIBRACIÓN (Sustituye al viejo temblor) */
-.vibration-overlay {
+.gif-gate-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 2000; /* Por encima de todo */
+    background-color: #000; /* Fondo negro */
+    opacity: 1;
+    transition: opacity 1s ease-out; /* Transición suave al desaparecer */
+}
+
+.full-screen-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que el GIF cubra toda la pantalla sin distorsión */
+}
+
+/* Clase añadida por JS para ocultar el overlay de GIF */
+.gif-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important; /* Desactiva clics */
+}
+
+/* ================================================= */
+/* CONTENIDO PRINCIPAL (INICIALMENTE OCULTO) */
+/* ================================================= */
+
+#mainContent {
+    /* El contenido de la página debe estar inicialmente oculto */
+    opacity: 0;
     pointer-events: none;
-    z-index: 9999;
-    transition: opacity 0.5s ease-out;
-}
-.vibration-active {
-    animation: screen-shake 0.1s infinite;
-}
-@keyframes screen-shake {
-    0% { transform: translate(1px, 1px); }
-    25% { transform: translate(-1px, -1px); }
-    50% { transform: translate(1px, -1px); }
-    75% { transform: translate(-1px, 1px); }
-    100% { transform: translate(1px, 1px); }
+    transition: opacity 1s ease-in; /* Transición suave al aparecer */
 }
 
+/* Clase añadida al body por JS para mostrar todo */
+body.content-visible #mainContent {
+    opacity: 1;
+    pointer-events: auto;
+}
 
-/* 3. ESTILO DE CONTENIDO */
+/* Opcional: Ocultar la navbar hasta que se muestre el contenido */
+#main-navbar {
+    opacity: 0;
+    transition: opacity 0.5s ease 0.5s;
+}
 
-.content-wrapper {
+body.content-visible #main-navbar {
+    opacity: 1;
+}
+
+/* ================================================= */
+/* 2. PTERANODONES Y TARJETAS (Mantenido el estilo) */
+/* ================================================= */
+
+.pteranodon-target {
+    opacity: 1;
+    transition: none; 
+}
+
+/* ================================================= */
+/* 3. SECCIÓN DEL CARRO Y ADN */
+/* ================================================= */
+
+#parkTourInfo {
     position: relative;
-    z-index: 10; /* Asegura que el contenido esté por encima del fondo y los dinos */
-    color: #333;
-    padding-bottom: 5rem;
+    padding-bottom: 50px; 
 }
 
-#mainTitle {
-    font-family: 'Orbitron', sans-serif;
-    color: #34495e;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+.jeep-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
 
-.tagline {
-    font-family: 'Tinos', serif;
-    font-style: italic;
-    color: var(--color-alert);
+.park-jeep {
+    width: 90%;
+    max-width: 1000px; 
+    display: block;
+    margin: 0 auto;
+    animation: drive-jeep 15s ease-in-out infinite alternate; 
 }
 
-/* ESTILOS DE DINO-FACTS (NUEVA SECCIÓN) */
-.fact-bg {
-    background-color: #2c3e50; /* Azul oscuro */
+@keyframes drive-jeep {
+    from { transform: translateX(0); }
+    to { transform: translateX(5%); }
 }
-.fact-box {
-    color: white;
+
+.jeep-info-panel {
+    position: absolute;
+    top: -150px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 3px solid #4CAF50;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.7);
     padding: 20px;
-}
-.fact-box i {
-    color: var(--color-alert);
-}
-.fact-box .count {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3em;
-    font-weight: 700;
-    display: inline-block;
-}
-.fact-box .suffix {
-    font-size: 1.5em;
-    color: var(--color-alert);
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
 }
 
-/* ESTILOS DE CARDS (SERVICIOS E INSTALACIONES) */
-.service-card-ns {
-    border-top: 5px solid var(--color-tech-neon);
-    transition: all 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.service-card-ns:hover {
-    transform: translateY(-5px);
-    border-top-color: var(--color-alert);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.jeep-info-panel h4 {
+    color: #4CAF50;
 }
 
-.installation-card-ns {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
+.jeep-title {
+    color: #4CAF50;
+    text-align: center;
+    border-bottom: 1px solid rgba(76, 175, 80, 0.5);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
 }
-.installation-card-ns .card-header {
-    background-color: #ecf0f1;
-    color: #34495e;
-    font-weight: bold;
+
+/* Colores temáticos para especies */
+.t-rex { color: #FF6347; font-weight: bold; }
+.raptor { color: #FFD700; font-weight: bold; }
+.brachio { color: #4CAF50; font-weight: bold; }
+/* ================================================= */
+/* ESTILOS PARA EL DINOSAURIO BAILARÍN */
+/* ================================================= */
+
+.dino-dance-container {
+    width: 100%;
+    max-width: 600px; /* Ajusta el ancho máximo de tu GIF */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    border-radius: 15px;
+    border: 2px solid #4CAF50; /* Borde verde */
+    box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); /* Sombra brillante */
+    position: relative;
+    overflow: hidden; /* Asegura que el GIF no se salga del contenedor si es muy grande */
 }
-.installation-card-ns .card-header i {
-    color: #27ae60;
-    margin-right: 5px;
+
+.dino-dancer {
+    display: block; /* Elimina espacios extra bajo la imagen */
+    margin: 0 auto; /* Centra el GIF dentro de su contenedor */
+    max-height: 300px; /* Limita la altura del GIF si es muy alto, ajusta si es necesario */
+    object-fit: contain; /* Asegura que el GIF se vea completo sin recortarse */
+}
+
+/* Animación opcional para un ligero movimiento del contenedor */
+@keyframes pulse-border {
+    0% { border-color: #4CAF50; box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); }
+    50% { border-color: #76FF03; box-shadow: 0 0 35px rgba(118, 255, 3, 0.8); }
+    100% { border-color: #4CAF50; box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); }
+}
+
+.dino-dance-container {
+    animation: pulse-border 3s infinite ease-in-out;
 }
