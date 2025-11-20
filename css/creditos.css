@@ -1,0 +1,66 @@
+/* Estilos Generales para la Página */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    perspective: 500px;
+    font-size: 1.1em; 
+}
+
+/* Botón Saltar Créditos */
+.saltar-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    z-index: 100;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.saltar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-color: #fff;
+}
+
+/* Contenedor de los Créditos */
+.creditos-container {
+    width: 80%;
+    max-width: 700px; 
+    text-align: center;
+    padding: 30px 0;
+    box-sizing: border-box;
+    /* Mantenemos el margen para empezar debajo de la pantalla */
+    margin-top: 100vh; 
+    
+    transform: translateY(0) rotateX(20deg); 
+    /* 🚀 DURACIÓN RÁPIDA: 15 segundos */
+    animation: scroll-creditos 5s linear forwards; 
+    transform-origin: 50% 100%; 
+}
+
+/* ... (Títulos, Roles, Imagen, etc. sin cambios) ... */
+
+/* 🚀 Animación de Desplazamiento (Ajustado para 15s) */
+@keyframes scroll-creditos {
+    0% {
+        transform: translateY(0) rotateX(20deg);
+    }
+    100% {
+        /* Distancia ajustada para que el contenido pase completamente 
+           a una velocidad constante en 15 segundos. */
+        transform: translateY(-300vh) rotateX(20deg); 
+    }
+}
