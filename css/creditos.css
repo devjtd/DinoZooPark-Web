@@ -9,7 +9,6 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     margin: 0;
-    perspective: 500px;
     font-size: 1.1em; 
 }
 
@@ -35,32 +34,94 @@ body {
     border-color: #fff;
 }
 
-/* Contenedor de los Créditos */
+/* Contenedor de los Créditos (PLANO Y DURACIÓN TOTAL) */
 .creditos-container {
     width: 80%;
     max-width: 700px; 
     text-align: center;
     padding: 30px 0;
     box-sizing: border-box;
-    /* Mantenemos el margen para empezar debajo de la pantalla */
     margin-top: 100vh; 
     
-    transform: translateY(0) rotateX(20deg); 
-    /* 🚀 DURACIÓN RÁPIDA: 15 segundos */
-    animation: scroll-creditos 5s linear forwards; 
-    transform-origin: 50% 100%; 
+    transform: translateY(0); 
+    /* 🚀 DURACIÓN TOTAL: 20 segundos */
+    animation: scroll-creditos 20s linear forwards; 
 }
 
-/* ... (Títulos, Roles, Imagen, etc. sin cambios) ... */
+.seccion-titulo {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #f0c300; 
+    letter-spacing: 2px;
+}
 
-/* 🚀 Animación de Desplazamiento (Ajustado para 15s) */
+.rol-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    padding: 0 10%; 
+}
+
+.rol {
+    font-weight: bold;
+    color: #aaa;
+}
+
+.nombre {
+    color: #fff;
+}
+
+.large-text .rol, .large-text .nombre {
+    font-size: 1.2em;
+    color: #f9f9f9;
+}
+
+/* ✅ CONTENEDOR DE IMAGEN (TAMAÑO AÚN MÁS GRANDE) */
+.dinosaur-image-container {
+    margin: 20px auto;
+    /* Las imágenes ocupan el 90% del ancho del contenedor */
+    max-width: 90%; 
+}
+
+.dinosaur-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    opacity: 0.8;
+}
+
+.mensaje-final {
+    margin-top: 100px; 
+    font-size: 2.5em;
+    color: #f0c300;
+    font-weight: bold;
+    padding-bottom: 100vh; 
+}
+/* ... (Secciones anteriores de estilos CSS se mantienen igual) ... */
+
+/* 🚀 Animación de Desplazamiento (PLANA, 20s y PAUSA en Imágenes) */
 @keyframes scroll-creditos {
+    /* 0% a 70% del tiempo (14 segundos): Desplazamiento rápido de la mayor parte del texto. */
     0% {
-        transform: translateY(0) rotateX(20deg);
+        transform: translateY(0);
     }
+    /* El punto intermedio también se ajusta proporcionalmente */
+    70% { 
+        transform: translateY(-250vh); /* Aumentado */
+    }
+    
+    /* 70% a 90% del tiempo (4 segundos): Desplazamiento MUY LENTO sobre las imágenes. */
+    90% { 
+        transform: translateY(-300vh); /* Aumentado */
+    }
+    
+    /* 90% a 100% del tiempo (2 segundos): Desplazamiento rápido final. */
     100% {
-        /* Distancia ajustada para que el contenido pase completamente 
-           a una velocidad constante en 15 segundos. */
-        transform: translateY(-300vh) rotateX(20deg); 
+        /* ✅ AUMENTO DE DISTANCIA FINAL para asegurar que el contenido más grande se vea completo */
+        transform: translateY(-350vh); 
     }
 }
+
+/* ... (El resto del archivo CSS se mantiene igual) ... */

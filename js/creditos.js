@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const saltarCreditosBtn = document.getElementById('saltarCreditosBtn');
     
-    // 🚀 SINCRONIZACIÓN: 15 segundos (15000 milisegundos)
-    const duracionAnimacionMs = 15 * 1000; 
+    // 🚀 SINCRONIZACIÓN: 20 segundos (20000 milisegundos)
+    const duracionAnimacionMs = 20 * 1000; 
 
     // Función para redirigir a index.html
     const redirectToIndex = () => {
